@@ -1,0 +1,20 @@
+# virtualenv
+bin/*
+include/*
+lib/*
+Scripts/*
+.Python
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# build process
+build/*
+dist/*
+
+# test files
+*.html
+
+# config file
+config.json

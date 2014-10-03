@@ -1,0 +1,10 @@
+{
+    "src": {
+        "dir": "C:\\Users\\raul\\programming\\python\\watchme",
+        "file": "src.html"
+    },
+    "dest": {
+        "dir": "C:\\Users\\raul\\programming\\python\\watchme",
+        "file": "dest.html"
+    }
+}
