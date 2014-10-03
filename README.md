@@ -13,7 +13,7 @@ $ git clone git@github.com:mscweb/watchme.git
 $ cd watchme
 $ virtualenv .
 $ source Scripts/activate
-$ pip install requirements.txt -r
+$ pip install -r requirements.txt
 ```
 
 Create a ```config.json``` that specifies the source and destination file. See ```config.example.json```
