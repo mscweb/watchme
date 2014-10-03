@@ -12,6 +12,7 @@ radio site for compliance.
 $ git clone git@github.com:mscweb/watchme.git
 $ cd watchme
 $ virtualenv .
+$ source Scripts/activate
 $ pip install requirements.txt -r
 ```
 
