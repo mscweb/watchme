@@ -8,40 +8,49 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 
-BASE_DIR = os.path.realpath(os.path.dirname(sys.argv[0]))
+def read_config_file(filename):
+    BASE_DIR = os.path.realpath(os.path.dirname(sys.argv[0]))
 
-with open(os.path.join(BASE_DIR, "config.json")) as data_file:
-    data = json.load(data_file)
+    with open(os.path.join(BASE_DIR, filename)) as data_file:
+        data = json.load(data_file)
 
-SRC_DIR = data["src"]["dir"]
-DEST_DIR = data["dest"]["dir"]
-SRC_FILE = os.path.join(SRC_DIR, data["src"]["file"])
-DEST_FILE = os.path.join(DEST_DIR, data["dest"]["file"])
+    return data
 
 
 def copy_resource_to_server(event):
-    """Copy SRC_FILE to DEST_FILE"""
-    if event.src_path == SRC_FILE:
-        shutil.copyfile(SRC_FILE, DEST_FILE)
+    """Copy source file to destination"""
+    data = read_config_file("config.json")
+
+    src_file = os.path.join(data["src"]["dir"], data["src"]["file"])
+    dest_file = os.path.join(data["dest"]["dir"], data["dest"]["file"])
+
+    if event.src_path == src_file:
+        shutil.copyfile(src_file, dest_file)
 
 
-event_handler = FileSystemEventHandler()
+def _main():
+    event_handler = FileSystemEventHandler()
 
-event_handler.on_created = copy_resource_to_server
-event_handler.on_modified = copy_resource_to_server
+    event_handler.on_created = copy_resource_to_server
+    event_handler.on_modified = copy_resource_to_server
 
-observer = Observer()
+    observer = Observer()
 
-observer.schedule(event_handler, SRC_DIR, recursive=False)
+    data = read_config_file("config.json")
+    observer.schedule(event_handler, data["src"]["dir"], recursive=False)
 
-observer.start()
+    observer.start()
 
-try:
-    while True:
-        time.sleep(1)
-except KeyboardInterrupt:
-    observer.stop()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
 
-observer.join()
+    observer.join()
 
-raw_input("")
+    raw_input("")
+
+
+if __name__ == "__main__":
+    _main()
