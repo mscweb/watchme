@@ -21,8 +21,12 @@ DEST_FILE = os.path.join(DEST_DIR, data["dest"]["file"])
 
 def copy_resource_to_server(event):
     """Copy SRC_FILE to DEST_FILE"""
-    if event.src_path == SRC_FILE:
-        shutil.copyfile(SRC_FILE, DEST_FILE)
+    try:
+        if event.src_path == SRC_FILE:
+            shutil.copyfile(SRC_FILE, DEST_FILE)
+    except Exception as ex:
+        print type(ex)
+        print ex
 
 
 event_handler = FileSystemEventHandler()
